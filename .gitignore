@@ -1,0 +1,11 @@
+# Original generation workspace and regenerated outputs
+/work/
+/outputs/
+/.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+*.log
+Thumbs.db
+.DS_Store

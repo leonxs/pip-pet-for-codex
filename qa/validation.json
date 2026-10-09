@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "image": "spritesheet.png",
+  "sha256": "d2fae800671477d60ede3fc8166e730e8f6f0a80e16027536b876c7b471dea61",
+  "mode": "RGBA",
+  "size": [
+    1536,
+    2288
+  ],
+  "state_count": 9,
+  "look_count": 16,
+  "used_frames": 73,
+  "empty_cells": 15,
+  "transparent_pixels_with_rgb": 0,
+  "errors": []
+}
