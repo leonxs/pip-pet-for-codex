@@ -2,6 +2,7 @@
 /work/
 /outputs/
 /.venv/
+/node_modules/
 __pycache__/
 *.py[cod]
 .env

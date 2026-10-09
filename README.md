@@ -2,7 +2,7 @@
 
 ![Pip's nine animation states](previews/all-states.gif)
 
-Pip is a round penguin with a red scarf, a broad orange beak, and gentle expressions. This repository contains its **v2 sprite atlas, Codex installation package, previews, and Python tools**.
+Pip is a round penguin with a red scarf, a broad orange beak, and gentle expressions. This repository contains its **approved reference artwork, reproducible v2 sprite atlas, Codex installation package, and previews**. Every animation uses the same reference pixels, with attached flippers that bend smoothly at the shoulders.
 
 ## Install in Codex
 
@@ -54,10 +54,23 @@ After either installation method, open **Settings > Pets > Refresh**, then selec
 
 The local installer writes the package; selecting Pip and showing the pet are manual steps.
 
+### Update an existing local Pip
+
+From this checkout, pull the latest files and explicitly update the installed package:
+
+```sh
+git pull --ff-only
+python scripts/install_codex.py --update
+```
+
+The updater verifies the existing package belongs to Pip, preserves the previous manifest and PNG in `pets/pip/.backups/<timestamp>/`, then installs and verifies the new files. An identical installation is left unchanged. The command prints the installation and backup paths. After updating, refresh Pets in Codex and select Pip again; if the old image remains cached, restart the app when convenient.
+
+Without `--update`, conflicting installed files are still preserved and the installer stops. The updater restores the previous package if a replacement fails; after an interrupted process or power loss, the retained backup can be restored manually.
+
 ### Troubleshooting
 
 - **Pip is missing:** Check the installer output and the Codex home directory it used. Select **Refresh** again. If Refresh still does not detect Pip, restart the app yourself when convenient.
-- **Existing files differ:** The installer preserves conflicting files and stops. Review the existing Pip package before replacing it; an identical installation can be run again safely.
+- **Existing files differ:** The installer preserves conflicting files and stops. Use `python scripts/install_codex.py --update` to back up and replace a verified Pip installation; an identical installation can be run again safely.
 - **The atlas is rejected:** Keep `spriteVersionNumber: 2` in the Codex manifest or install URL. This 11-row atlas requires v2; omitting the version defaults to v1.
 - **The install link does nothing:** Use the complete URL above, including its HTTPS image URL and version parameter. Check that Codex is installed and Pets are available in your app/workspace.
 - **The remote image cannot be fetched:** The repository and raw PNG must be public. Use the local installer for an authorized local checkout instead.
@@ -86,10 +99,10 @@ Rows and columns are **zero-based**. Crop a cell at `x = column × 192`, `y = ro
 | 0 | `idle` | 6 | Breathing and blinking |
 | 1 | `running-right` | 8 | Running toward screen-right |
 | 2 | `running-left` | 8 | Running toward screen-left |
-| 3 | `waving` | 4 | Raising, waving, and lowering a flipper |
+| 3 | `waving` | 4 | Holding a flipper up and waving in a continuous loop |
 | 4 | `jumping` | 5 | Anticipation, ascent, peak, descent, and landing |
 | 5 | `failed` | 8 | Looking down, slumping, and recovering |
-| 6 | `waiting` | 6 | Open flippers and a patient head tilt |
+| 6 | `waiting` | 6 | Patient glances, blinking, and a gentle foot tap |
 | 7 | `running` | 6 | Working in place with focused gaze and flipper taps |
 | 8 | `review` | 6 | Inspecting, holding the beak, and tilting the head |
 | 9 | Look 0°–157.5° | 8 | First eight gaze directions |
@@ -117,6 +130,7 @@ These poses shift the pupils, head, and beak subtly while keeping the torso, bel
 ```text
 pip-pet-for-codex/
 ├── assets/
+│   ├── reference.png          # Approved artwork; unchanged source pixels
 │   ├── spritesheet.png        # Final transparent atlas
 │   └── pet.json               # Detailed atlas metadata for tools
 ├── codex/
@@ -127,13 +141,20 @@ pip-pet-for-codex/
 │   ├── idle-jump-idle.gif
 │   └── motion-stills.png
 ├── scripts/
+│   ├── build_sprites.cjs      # Source extraction and anchored flipper/scarf deformation
+│   ├── poses.cjs              # All state and gaze transforms
 │   ├── install_codex.py
+│   ├── test_install_codex.py
 │   ├── validate.py
 │   ├── extract_frames.py
 │   └── make_previews.py
-├── qa/validation.json
+├── qa/
+│   ├── generation-validation.json  # Source hashes, scale, and frame bounds
+│   └── validation.json
 ├── docs/generation.md
 ├── requirements.txt
+├── package.json
+├── package-lock.json
 └── README.md
 ```
 
@@ -154,11 +175,25 @@ Validation checks the RGBA mode, dimensions, metadata layout, occupied and trans
 
 All extraction and preview tools read the final atlas directly and require no ImageGen calls. See [`idle-jump-idle.gif`](previews/idle-jump-idle.gif) for state transitions and [`motion-stills.png`](previews/motion-stills.png) for representative poses.
 
+## Rebuild the animations
+
+To rebuild from [`assets/reference.png`](assets/reference.png), install Node.js 20.9+ and run:
+
+```sh
+npm ci
+npm run build
+python scripts/validate.py --output qa/validation.json
+python scripts/make_previews.py --output previews
+python scripts/test_install_codex.py
+```
+
+The builder writes the atlas, source and atlas checksums in the metadata, and [`qa/generation-validation.json`](qa/generation-validation.json). It removes only flood-connected exterior white, preserves enclosed white areas, and reuses the source's colors and curves. The neutral idle frame uses the complete source silhouette. Other frames bend textured flippers and the scarf tail from anchored roots, deform the connected feet as one surface, and coordinate body motion, gaze, and blinking. Shoulders stay behind the scarf while raised flipper tips can cross in front. Frame scale stays fixed; the builder rejects any pose that reaches a cell border.
+
 ## Creation and limitations
 
-Pip was made through AI image generation, visual review, local corrections, background removal, consistent frame scaling and alignment, gaze construction, and atlas assembly. The previews were cropped from the final encoded PNG. The [generation notes](docs/generation.md) describe the process in Chinese.
+The current artwork is the approved reference PNG. Animation frames are built deterministically from its pixels, without independently generating or redrawing each pose. The previews are cropped from the final encoded PNG. The [generation notes](docs/generation.md) describe the process in Chinese.
 
-The scripts reproduce checks, frame exports, and previews; they do not regenerate the character or create new animations. Visual review remains necessary for identity, anatomy, motion, and gaze continuity. GIF colors, transparency, and timings are for demonstration; use the RGBA PNG for installation or integration.
+The scripts reproduce the atlas, checks, frame exports, and previews. The artwork remains a front-facing 2D character; traveling poses lean and look toward the travel direction. Visual review remains necessary for anatomy, motion, and state transitions. GIF colors, transparency, and timings are for demonstration; use the RGBA PNG for installation or integration.
 
 The desktop selection and display steps require manual confirmation in the app. Repository checks do not establish end-to-end UI acceptance on every Codex version.
 

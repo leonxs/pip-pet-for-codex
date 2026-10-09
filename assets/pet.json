@@ -11,40 +11,161 @@
     "width": 1536,
     "height": 2288,
     "mode": "RGBA",
-    "sha256": "d2fae800671477d60ede3fc8166e730e8f6f0a80e16027536b876c7b471dea61"
+    "sha256": "269c6b68e2ee72e229b2c9cd3d919bf7fe86e5983453018206c760d6a0855bc1"
   },
   "states": [
-    { "name": "idle", "row": 0, "frames": 6 },
-    { "name": "running-right", "row": 1, "frames": 8 },
-    { "name": "running-left", "row": 2, "frames": 8 },
-    { "name": "waving", "row": 3, "frames": 4 },
-    { "name": "jumping", "row": 4, "frames": 5 },
-    { "name": "failed", "row": 5, "frames": 8 },
-    { "name": "waiting", "row": 6, "frames": 6 },
-    { "name": "running", "row": 7, "frames": 6 },
-    { "name": "review", "row": 8, "frames": 6 }
+    {
+      "name": "idle",
+      "row": 0,
+      "frames": 6
+    },
+    {
+      "name": "running-right",
+      "row": 1,
+      "frames": 8
+    },
+    {
+      "name": "running-left",
+      "row": 2,
+      "frames": 8
+    },
+    {
+      "name": "waving",
+      "row": 3,
+      "frames": 4
+    },
+    {
+      "name": "jumping",
+      "row": 4,
+      "frames": 5
+    },
+    {
+      "name": "failed",
+      "row": 5,
+      "frames": 8
+    },
+    {
+      "name": "waiting",
+      "row": 6,
+      "frames": 6
+    },
+    {
+      "name": "running",
+      "row": 7,
+      "frames": 6
+    },
+    {
+      "name": "review",
+      "row": 8,
+      "frames": 6
+    }
   ],
   "look": {
     "angle_origin": "up",
     "direction": "clockwise",
     "angle_step_degrees": 22.5,
     "frames": [
-      { "index": 0, "row": 9, "column": 0, "angle_degrees": 0 },
-      { "index": 1, "row": 9, "column": 1, "angle_degrees": 22.5 },
-      { "index": 2, "row": 9, "column": 2, "angle_degrees": 45 },
-      { "index": 3, "row": 9, "column": 3, "angle_degrees": 67.5 },
-      { "index": 4, "row": 9, "column": 4, "angle_degrees": 90 },
-      { "index": 5, "row": 9, "column": 5, "angle_degrees": 112.5 },
-      { "index": 6, "row": 9, "column": 6, "angle_degrees": 135 },
-      { "index": 7, "row": 9, "column": 7, "angle_degrees": 157.5 },
-      { "index": 8, "row": 10, "column": 0, "angle_degrees": 180 },
-      { "index": 9, "row": 10, "column": 1, "angle_degrees": 202.5 },
-      { "index": 10, "row": 10, "column": 2, "angle_degrees": 225 },
-      { "index": 11, "row": 10, "column": 3, "angle_degrees": 247.5 },
-      { "index": 12, "row": 10, "column": 4, "angle_degrees": 270 },
-      { "index": 13, "row": 10, "column": 5, "angle_degrees": 292.5 },
-      { "index": 14, "row": 10, "column": 6, "angle_degrees": 315 },
-      { "index": 15, "row": 10, "column": 7, "angle_degrees": 337.5 }
+      {
+        "index": 0,
+        "row": 9,
+        "column": 0,
+        "angle_degrees": 0
+      },
+      {
+        "index": 1,
+        "row": 9,
+        "column": 1,
+        "angle_degrees": 22.5
+      },
+      {
+        "index": 2,
+        "row": 9,
+        "column": 2,
+        "angle_degrees": 45
+      },
+      {
+        "index": 3,
+        "row": 9,
+        "column": 3,
+        "angle_degrees": 67.5
+      },
+      {
+        "index": 4,
+        "row": 9,
+        "column": 4,
+        "angle_degrees": 90
+      },
+      {
+        "index": 5,
+        "row": 9,
+        "column": 5,
+        "angle_degrees": 112.5
+      },
+      {
+        "index": 6,
+        "row": 9,
+        "column": 6,
+        "angle_degrees": 135
+      },
+      {
+        "index": 7,
+        "row": 9,
+        "column": 7,
+        "angle_degrees": 157.5
+      },
+      {
+        "index": 8,
+        "row": 10,
+        "column": 0,
+        "angle_degrees": 180
+      },
+      {
+        "index": 9,
+        "row": 10,
+        "column": 1,
+        "angle_degrees": 202.5
+      },
+      {
+        "index": 10,
+        "row": 10,
+        "column": 2,
+        "angle_degrees": 225
+      },
+      {
+        "index": 11,
+        "row": 10,
+        "column": 3,
+        "angle_degrees": 247.5
+      },
+      {
+        "index": 12,
+        "row": 10,
+        "column": 4,
+        "angle_degrees": 270
+      },
+      {
+        "index": 13,
+        "row": 10,
+        "column": 5,
+        "angle_degrees": 292.5
+      },
+      {
+        "index": 14,
+        "row": 10,
+        "column": 6,
+        "angle_degrees": 315
+      },
+      {
+        "index": 15,
+        "row": 10,
+        "column": 7,
+        "angle_degrees": 337.5
+      }
     ]
+  },
+  "source": {
+    "image": "reference.png",
+    "sha256": "f0bcc10befa578704eed3e4201351a4f10e1766b95966082ba73c204a03b4350",
+    "method": "Direct pixel layers and deterministic transforms; no generated animation frames."
   }
 }
