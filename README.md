@@ -1,6 +1,6 @@
 # Pip — Penguin Pet for Codex
 
-![Pip's nine animation states](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/fc1eae695a3ffa991cfba94b3c0fe77b368d16f8/previews/all-states.gif)
+![Pip's nine animation states](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/previews/all-states.gif)
 
 Pip is a round penguin with a red scarf, a broad orange beak, and gentle expressions. This repository contains its **approved reference artwork, reproducible v2 sprite atlas, Codex installation package, and previews**. Every animation uses the same reference pixels, with attached flippers that bend smoothly at the shoulders.
 
@@ -8,24 +8,24 @@ Preview and installation links below use the same verified artwork revision.
 
 ## Install in Codex
 
-Use the Codex desktop app with Pets available. Pip uses a **version 2** atlas; the actual pet asset is [`assets/spritesheet.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/fc1eae695a3ffa991cfba94b3c0fe77b368d16f8/assets/spritesheet.png).
+Use the Codex desktop app with Pets available. Pip uses a **version 2** atlas; the actual pet asset is [`assets/spritesheet.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/assets/spritesheet.png).
 
 ### Option 1: Open the install link
 
-[Install Pip in Codex](codex://pets/install?name=Pip&imageUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fleonxs%2Fpip-pet-for-codex%2Ffc1eae695a3ffa991cfba94b3c0fe77b368d16f8%2Fassets%2Fspritesheet.png&spriteVersionNumber=2)
+[Install Pip in Codex](codex://pets/install?name=Pip&imageUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fleonxs%2Fpip-pet-for-codex%2Fb8cdaafef2c33d1976c2b384ba8f9d8545743ce8%2Fassets%2Fspritesheet.png&spriteVersionNumber=2)
 
 This opens the desktop pet install flow. The link explicitly selects v2, as documented in the [official pet deep-link reference](https://learn.chatgpt.com/docs/reference/commands#pets).
 
 GitHub may not activate `codex://` links. Copy this entire URL into your browser's address bar and allow it to open Codex:
 
 ```text
-codex://pets/install?name=Pip&imageUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fleonxs%2Fpip-pet-for-codex%2Ffc1eae695a3ffa991cfba94b3c0fe77b368d16f8%2Fassets%2Fspritesheet.png&spriteVersionNumber=2
+codex://pets/install?name=Pip&imageUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fleonxs%2Fpip-pet-for-codex%2Fb8cdaafef2c33d1976c2b384ba8f9d8545743ce8%2Fassets%2Fspritesheet.png&spriteVersionNumber=2
 ```
 
 On Windows, you can also open the same link from PowerShell:
 
 ```powershell
-Start-Process 'codex://pets/install?name=Pip&imageUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fleonxs%2Fpip-pet-for-codex%2Ffc1eae695a3ffa991cfba94b3c0fe77b368d16f8%2Fassets%2Fspritesheet.png&spriteVersionNumber=2'
+Start-Process 'codex://pets/install?name=Pip&imageUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fleonxs%2Fpip-pet-for-codex%2Fb8cdaafef2c33d1976c2b384ba8f9d8545743ce8%2Fassets%2Fspritesheet.png&spriteVersionNumber=2'
 ```
 
 The raw GitHub PNG must be publicly accessible for this method. If downloading it fails, use the local installer below.
@@ -48,7 +48,7 @@ The [installer](scripts/install_codex.py) copies `pet.json` and `spritesheet.png
 
 If `CODEX_HOME` is set, the installer uses `CODEX_HOME/pets/pip/`. Override the home directory with `--codex-home <directory>` when needed.
 
-[`codex/pet.json`](codex/pet.json) is the native Codex manifest, containing `id`, `displayName`, `description`, `spriteVersionNumber: 2`, and `spritesheetPath`. [`assets/pet.json`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/fc1eae695a3ffa991cfba94b3c0fe77b368d16f8/assets/pet.json) describes the atlas in detail for this repository's tools.
+[`codex/pet.json`](codex/pet.json) is the native Codex manifest, containing `id`, `displayName`, `description`, `spriteVersionNumber: 2`, and `spritesheetPath`. [`assets/pet.json`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/assets/pet.json) describes the atlas in detail for this repository's tools.
 
 ### Select and show Pip
 
@@ -83,7 +83,7 @@ Without `--update`, conflicting installed files are still preserved and the inst
 
 | Property | Value |
 | --- | --- |
-| Source | [`assets/spritesheet.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/fc1eae695a3ffa991cfba94b3c0fe77b368d16f8/assets/spritesheet.png) |
+| Source | [`assets/spritesheet.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/assets/spritesheet.png) |
 | Format | PNG, RGBA, transparent background |
 | Atlas | 1536 × 2288 px |
 | Grid | 8 columns × 11 rows |
@@ -112,11 +112,11 @@ Rows and columns are **zero-based**. Crop a cell at `x = column × 192`, `y = ro
 
 `running` is the working state. Moving runs use `running-right` and `running-left`.
 
-![Pip's relaxed working animation](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/fc1eae695a3ffa991cfba94b3c0fe77b368d16f8/previews/running.gif)
+![Pip's relaxed working animation](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/previews/running.gif)
 
 ## Look directions
 
-![Pip's sixteen look directions](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/fc1eae695a3ffa991cfba94b3c0fe77b368d16f8/previews/look-loop.gif)
+![Pip's sixteen look directions](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/previews/look-loop.gif)
 
 Angles start at **up = 0°**, advance **clockwise**, and step by **22.5°**.
 
@@ -178,11 +178,11 @@ python scripts/make_previews.py --output work/previews
 
 Validation checks the RGBA mode, dimensions, metadata layout, occupied and transparent cells, cell borders, hidden RGB values in transparent pixels, and the atlas SHA-256. The [validation report](qa/validation.json) records the packaged asset's results.
 
-All extraction and preview tools read the final atlas directly and require no ImageGen calls. See [`idle-jump-idle.gif`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/fc1eae695a3ffa991cfba94b3c0fe77b368d16f8/previews/idle-jump-idle.gif) for state transitions and [`motion-stills.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/fc1eae695a3ffa991cfba94b3c0fe77b368d16f8/previews/motion-stills.png) for representative poses.
+All extraction and preview tools read the final atlas directly and require no ImageGen calls. See [`idle-jump-idle.gif`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/previews/idle-jump-idle.gif) for state transitions and [`motion-stills.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/previews/motion-stills.png) for representative poses.
 
 ## Rebuild the animations
 
-To rebuild from [`assets/reference.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/fc1eae695a3ffa991cfba94b3c0fe77b368d16f8/assets/reference.png), install Node.js 20.9+ and run:
+To rebuild from [`assets/reference.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/assets/reference.png), install Node.js 20.9+ and run:
 
 ```sh
 npm ci
