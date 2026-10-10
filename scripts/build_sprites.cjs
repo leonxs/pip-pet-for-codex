@@ -174,9 +174,9 @@ async function warpLayer(raw,bounds,deform){
 async function bendArm(raw,side,angle,dx,dy){
   const pivotX=side==='left'?125:644;
   const bounds=side==='left'?[32,344,182,600]:[586,344,736,600];
-  const inward=side==='left'?angle< -20:angle>20;
+  const thinking=side==='right'&&angle>70;
   const deform=(x,y)=>{
-    if(side==='right'&&angle>70){
+    if(thinking){
       // Route the thinking flipper around the outside of the scarf. A blended
       // rigid turn folds the shaft through the red band, leaving a red shard.
       const phase=Math.max(0,Math.min(1,(angle-96)/26));
@@ -187,12 +187,12 @@ async function bendArm(raw,side,angle,dx,dy){
       const length=Math.hypot(...tangent),offset=x-(644+(y-365)*.22);
       return [center[0]+offset*tangent[1]/length,center[1]-offset*tangent[0]/length];
     }
-    const target=rotated(x,y,pivotX,365,angle,dx,dy),w=smooth((y-(inward?390:350))/92);
+    const target=rotated(x,y,pivotX,365,angle,dx,dy),w=smooth((y-350)/92);
     return [x+w*(target[0]-x),y+w*(target[1]-y)];
   };
   const result={};
   if(angle||dx||dy)result[side+'Arm']=await warpLayer(raw,bounds,deform);
-  if(inward){
+  if(thinking){
     const tip=Buffer.from(raw);
     for(let y=344;y<442;y++)for(let x=bounds[0];x<bounds[2];x++){
       const i=(y*WORLD+x)*4;tip[i+3]=Math.round(tip[i+3]*smooth((y-398)/4));
@@ -225,9 +225,9 @@ function markup(layers,p,neutral=false){
   const eyeScale=Math.max(.15,1-p.blink*.8);
   const eyes=p.blink>.7 ? img('closedEyes') : `<g transform="translate(0 178) scale(1 ${eyeScale}) translate(0 -178)">${img('eyes')}<g transform="translate(${p.gazeX} ${p.gazeY})">${img('pupils')}</g></g>`;
   const face=`<g transform="rotate(${p.headRotate} 384 279)">${eyes}<g transform="translate(${p.gazeX*.2} ${p.gazeY*.24})">${img('beak')}</g></g>`;
-  const frontLeft=p.leftArmRotate< -20,frontRight=p.rightArmRotate>20;
+  const frontRight=p.rightArmRotate>70;
   const body=neutral?img('full'):
-    `${img('feet')}${img('leftArm')}${img('rightArm')}${img('body')}${img('scarf')}${face}${frontLeft?img('leftArmFront'):''}${frontRight?img('rightArmFront'):''}`;
+    `${img('feet')}${img('leftArm')}${img('rightArm')}${img('body')}${img('scarf')}${face}${frontRight?img('rightArmFront'):''}`;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="768" height="832" viewBox="0 0 192 208"><g transform="translate(96 196) scale(${SCALE}) translate(-384 -718)"><g transform="translate(0 ${p.bodyY}) translate(384 410) rotate(${p.bodyRotate}) scale(${p.bodyScaleX} ${p.bodyScaleY}) translate(-384 -410)">${body}</g></g></svg>`;
 }
 

@@ -114,14 +114,15 @@ const states = [
   },
   {
     name: 'running',
-    // The Work activity uses inward fingertip taps; it is distinct from travel.
+    // A focused, relaxed work rhythm. Flippers hang outside the torso and sway
+    // alternately; avoid pinning them upright against the belly like elbows.
     frames: [
-      pose({ gazeY: 4, headRotate: -0.6, leftArmRotate: -24, rightArmRotate: 25 }),
-      grounded({ bodyScaleY: 0.997, gazeX: -1, gazeY: 5, headRotate: -1, leftArmRotate: -36, rightArmRotate: 29, scarfRotate: -0.8 }),
-      grounded({ bodyScaleY: 1.002, gazeX: -1, gazeY: 5, headRotate: -0.4, leftArmRotate: -30, rightArmRotate: 35, scarfRotate: -0.3 }),
-      pose({ gazeX: 1, gazeY: 4, headRotate: 0.6, leftArmRotate: -24, rightArmRotate: 28, blink: 0.15 }),
-      grounded({ bodyScaleY: 0.997, gazeX: 1, gazeY: 5, headRotate: 1, leftArmRotate: -29, rightArmRotate: 36, scarfRotate: 0.8 }),
-      grounded({ bodyScaleY: 1.002, gazeY: 4, headRotate: 0.3, leftArmRotate: -34, rightArmRotate: 30, scarfRotate: 0.3 }),
+      pose({ bodyRotate: -0.4, gazeY: 3, headRotate: -0.4, leftArmRotate: 3, rightArmRotate: -1 }),
+      grounded({ bodyScaleY: 0.995, bodyRotate: -0.8, gazeY: 5, headRotate: -0.8, leftArmRotate: 8, rightArmRotate: -2, scarfRotate: -0.5 }),
+      grounded({ bodyScaleY: 0.998, bodyRotate: -0.4, gazeY: 4, headRotate: -0.3, leftArmRotate: 5, rightArmRotate: -4, scarfRotate: -0.2 }),
+      pose({ bodyRotate: 0.4, gazeY: 3, headRotate: 0.4, leftArmRotate: 1, rightArmRotate: -3 }),
+      grounded({ bodyScaleY: 0.995, bodyRotate: 0.8, gazeY: 5, headRotate: 0.8, leftArmRotate: 2, rightArmRotate: -8, scarfRotate: 0.5 }),
+      grounded({ bodyScaleY: 0.998, bodyRotate: 0.4, gazeY: 4, headRotate: 0.3, leftArmRotate: 4, rightArmRotate: -5, scarfRotate: 0.2 }),
     ],
   },
   {

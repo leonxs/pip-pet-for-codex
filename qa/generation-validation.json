@@ -2,7 +2,7 @@
   "ok": true,
   "source": "assets/reference.png",
   "source_sha256": "f0bcc10befa578704eed3e4201351a4f10e1766b95966082ba73c204a03b4350",
-  "sha256": "269c6b68e2ee72e229b2c9cd3d919bf7fe86e5983453018206c760d6a0855bc1",
+  "sha256": "ccadb2f29a63defb9d0e0b8e9e630571eebd9dd0334a790d80f3e470d2ad3bad",
   "method": "Direct pixel layers and deterministic transforms; no generated animation frames.",
   "scale": 0.235,
   "neutral_source_pose": [
@@ -555,72 +555,72 @@
       "row": 7,
       "column": 0,
       "bounds": [
-        25,
+        15,
         45,
-        166,
+        174,
         196
       ],
-      "nontransparent_pixels": 16756
+      "nontransparent_pixels": 17594
     },
     {
       "state": "running",
       "row": 7,
       "column": 1,
       "bounds": [
-        25,
+        12,
         46,
-        166,
-        196
+        175,
+        197
       ],
-      "nontransparent_pixels": 16665
+      "nontransparent_pixels": 17583
     },
     {
       "state": "running",
       "row": 7,
       "column": 2,
       "bounds": [
-        25,
+        14,
         45,
-        166,
+        176,
         196
       ],
-      "nontransparent_pixels": 16753
+      "nontransparent_pixels": 17633
     },
     {
       "state": "running",
       "row": 7,
       "column": 3,
       "bounds": [
-        25,
+        16,
         45,
-        166,
+        175,
         196
       ],
-      "nontransparent_pixels": 16752
+      "nontransparent_pixels": 17574
     },
     {
       "state": "running",
       "row": 7,
       "column": 4,
       "bounds": [
-        25,
+        15,
         46,
-        166,
-        196
+        179,
+        197
       ],
-      "nontransparent_pixels": 16667
+      "nontransparent_pixels": 17583
     },
     {
       "state": "running",
       "row": 7,
       "column": 5,
       "bounds": [
-        25,
+        14,
         45,
-        166,
+        177,
         196
       ],
-      "nontransparent_pixels": 16753
+      "nontransparent_pixels": 17620
     },
     {
       "state": "review",
