@@ -187,8 +187,12 @@ async function bendArm(raw,side,angle,dx,dy){
       const length=Math.hypot(...tangent),offset=x-(644+(y-365)*.22);
       return [center[0]+offset*tangent[1]/length,center[1]-offset*tangent[0]/length];
     }
-    const target=rotated(x,y,pivotX,365,angle,dx,dy),w=smooth((y-350)/92);
-    return [x+w*(target[0]-x),y+w*(target[1]-y)];
+    // Keep the shoulder tangent fixed and spread ordinary bending to the tip.
+    const w=smooth((y-350)/235);
+    if(Math.abs(angle)<70)return rotated(x,y,pivotX,365,angle*w,dx*w,dy*w);
+    // The high wave bends earlier so its raised tip stays inside its cell.
+    const target=rotated(x,y,pivotX,365,angle,dx,dy),raise=smooth((y-350)/92);
+    return [x+raise*(target[0]-x),y+raise*(target[1]-y)];
   };
   const result={};
   if(angle||dx||dy)result[side+'Arm']=await warpLayer(raw,bounds,deform);

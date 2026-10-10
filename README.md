@@ -206,4 +206,4 @@ The desktop selection and display steps require manual confirmation in the app. 
 
 ## License
 
-No `LICENSE` file or open-source license has been provided. Public repository access does not itself grant redistribution, relicensing, or commercial-use rights; obtain explicit permission from the rights holder for those uses.
+This project is licensed under the [MIT License](LICENSE). Copyright (c) 2026 leonxs. Third-party dependencies retain their respective licenses.

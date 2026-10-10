@@ -2,6 +2,7 @@
   "name": "pip-pet-assets",
   "private": true,
   "version": "1.0.0",
+  "license": "MIT",
   "description": "Build consistent Pip animation frames directly from the approved source image.",
   "scripts": { "build": "node scripts/build_sprites.cjs" },
   "dependencies": { "sharp": "0.35.5" }
