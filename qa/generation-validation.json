@@ -2,7 +2,7 @@
   "ok": true,
   "source": "assets/reference.png",
   "source_sha256": "f0bcc10befa578704eed3e4201351a4f10e1766b95966082ba73c204a03b4350",
-  "sha256": "99761a8199385c333059fa7814eebf03944b3393dcaa556b14dfdfe6ca68a14d",
+  "sha256": "2342d1e49599ae69f2977ed86e2576c32e50235a45aa5a1b813d0df228b99bc4",
   "method": "Direct pixel layers and deterministic transforms; no generated animation frames.",
   "scale": 0.235,
   "neutral_source_pose": [
@@ -555,72 +555,72 @@
       "row": 7,
       "column": 0,
       "bounds": [
-        16,
+        9,
         45,
-        174,
+        179,
         196
       ],
-      "nontransparent_pixels": 17565
+      "nontransparent_pixels": 17670
     },
     {
       "state": "running",
       "row": 7,
       "column": 1,
       "bounds": [
-        12,
-        46,
-        175,
+        3,
+        47,
+        177,
         197
       ],
-      "nontransparent_pixels": 17521
+      "nontransparent_pixels": 17412
     },
     {
       "state": "running",
       "row": 7,
       "column": 2,
       "bounds": [
-        14,
-        45,
-        176,
-        196
+        6,
+        48,
+        182,
+        197
       ],
-      "nontransparent_pixels": 17574
+      "nontransparent_pixels": 17311
     },
     {
       "state": "running",
       "row": 7,
       "column": 3,
       "bounds": [
-        17,
+        13,
         45,
-        175,
+        183,
         196
       ],
-      "nontransparent_pixels": 17550
+      "nontransparent_pixels": 17665
     },
     {
       "state": "running",
       "row": 7,
       "column": 4,
       "bounds": [
-        16,
-        46,
-        179,
+        14,
+        47,
+        188,
         197
       ],
-      "nontransparent_pixels": 17520
+      "nontransparent_pixels": 17425
     },
     {
       "state": "running",
       "row": 7,
       "column": 5,
       "bounds": [
-        14,
-        45,
-        177,
+        10,
+        46,
+        185,
         196
       ],
-      "nontransparent_pixels": 17559
+      "nontransparent_pixels": 17592
     },
     {
       "state": "review",

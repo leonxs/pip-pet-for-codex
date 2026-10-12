@@ -8,6 +8,7 @@ const crypto = require('node:crypto');
 const { states, looks } = require('./poses.cjs');
 const ROOT = path.resolve(__dirname, '..');
 const WORLD = 768, CELL_W = 192, CELL_H = 208, SCALE = 0.235;
+const WARP_PADDING = 64, WARP_SIZE = WORLD + WARP_PADDING * 2;
 const sha = data => crypto.createHash('sha256').update(data).digest('hex');
 
 async function sourceLayers() {
@@ -137,13 +138,15 @@ function rotated(x,y,pivotX,pivotY,angle,dx=0,dy=0){
 // Warp a connected texture with a shared triangle mesh. Sampling premultiplied
 // colors keeps the semitransparent edge free of dark seams.
 async function warpLayer(raw,bounds,deform){
-  const out=Buffer.alloc(raw.length);
+  // An outward bend can leave the source image while still fitting in the
+  // final pet cell. Keep that texture instead of cutting its tip at x = 0.
+  const out=Buffer.alloc(WARP_SIZE*WARP_SIZE*4);
   const map=(x,y)=>[...deform(x,y),x,y];
   function triangle(a,b,c){
     const det=(b[1]-c[1])*(a[0]-c[0])+(c[0]-b[0])*(a[1]-c[1]);
     if(Math.abs(det)<.01)return;
-    const minX=Math.max(0,Math.floor(Math.min(a[0],b[0],c[0]))),maxX=Math.min(WORLD-1,Math.ceil(Math.max(a[0],b[0],c[0])));
-    const minY=Math.max(0,Math.floor(Math.min(a[1],b[1],c[1]))),maxY=Math.min(WORLD-1,Math.ceil(Math.max(a[1],b[1],c[1])));
+    const minX=Math.max(-WARP_PADDING,Math.floor(Math.min(a[0],b[0],c[0]))),maxX=Math.min(WORLD+WARP_PADDING-1,Math.ceil(Math.max(a[0],b[0],c[0])));
+    const minY=Math.max(-WARP_PADDING,Math.floor(Math.min(a[1],b[1],c[1]))),maxY=Math.min(WORLD+WARP_PADDING-1,Math.ceil(Math.max(a[1],b[1],c[1])));
     for(let y=minY;y<=maxY;y++)for(let x=minX;x<=maxX;x++){
       const u=((b[1]-c[1])*(x+.5-c[0])+(c[0]-b[0])*(y+.5-c[1]))/det;
       const v=((c[1]-a[1])*(x+.5-c[0])+(a[0]-c[0])*(y+.5-c[1]))/det,w=1-u-v;
@@ -154,7 +157,7 @@ async function warpLayer(raw,bounds,deform){
       const offsets=[(iy*WORLD+ix)*4,(iy*WORLD+ix+1)*4,((iy+1)*WORLD+ix)*4,((iy+1)*WORLD+ix+1)*4];
       const weights=[(1-fx)*(1-fy),fx*(1-fy),(1-fx)*fy,fx*fy];
       const alpha=offsets.reduce((sum,p,k)=>sum+raw[p+3]*weights[k],0);
-      const target=(y*WORLD+x)*4;
+      const target=((y+WARP_PADDING)*WARP_SIZE+x+WARP_PADDING)*4;
       if(alpha<=out[target+3])continue;
       for(let channel=0;channel<3;channel++)out[target+channel]=Math.round(offsets.reduce((sum,p,k)=>sum+raw[p+channel]*raw[p+3]*weights[k],0)/alpha);
       out[target+3]=Math.round(alpha);
@@ -165,8 +168,21 @@ async function warpLayer(raw,bounds,deform){
     const a=map(x,y),b=map(Math.min(x+step,maxX),y),c=map(x,Math.min(y+step,maxY)),d=map(Math.min(x+step,maxX),Math.min(y+step,maxY));
     triangle(a,b,c);triangle(b,d,c);
   }
-  const png=await sharp(out,{raw:{width:WORLD,height:WORLD,channels:4}}).png().toBuffer();
-  return `data:image/png;base64,${png.toString('base64')}`;
+  for(let i=0;i<WARP_SIZE;i++){
+    if(out[i*4+3]||out[((WARP_SIZE-1)*WARP_SIZE+i)*4+3]||out[(i*WARP_SIZE)*4+3]||out[(i*WARP_SIZE+WARP_SIZE-1)*4+3])throw new Error('Deformed texture exceeds its padded canvas.');
+  }
+  let extendsOutside=false;
+  for(let y=0;y<WARP_SIZE&&!extendsOutside;y++)for(let x=0;x<WARP_SIZE;x++){
+    if((x<WARP_PADDING||y<WARP_PADDING||x>=WORLD+WARP_PADDING||y>=WORLD+WARP_PADDING)&&out[(y*WARP_SIZE+x)*4+3]){extendsOutside=true;break;}
+  }
+  const texture=sharp(out,{raw:{width:WARP_SIZE,height:WARP_SIZE,channels:4}});
+  // Preserve the sampling of existing poses whose texture fits the source.
+  if(!extendsOutside){
+    const png=await texture.extract({left:WARP_PADDING,top:WARP_PADDING,width:WORLD,height:WORLD}).png().toBuffer();
+    return `data:image/png;base64,${png.toString('base64')}`;
+  }
+  const png=await texture.png().toBuffer();
+  return {href:`data:image/png;base64,${png.toString('base64')}`,offset:-WARP_PADDING,size:WARP_SIZE};
 }
 
 // Keep shoulders behind the torso and scarf; only the bent distal flipper
@@ -225,7 +241,12 @@ async function bendScarf(raw,angle){
 }
 
 function markup(layers,p,neutral=false){
-  const img=name=>`<image href="${layers[name]}" x="0" y="0" width="768" height="768"/>`;
+  const img=name=>{
+    const layer=layers[name];
+    return typeof layer==='string'
+      ? `<image href="${layer}" x="0" y="0" width="768" height="768"/>`
+      : `<image href="${layer.href}" x="${layer.offset}" y="${layer.offset}" width="${layer.size}" height="${layer.size}"/>`;
+  };
   const eyeScale=Math.max(.15,1-p.blink*.8);
   const eyes=p.blink>.7 ? img('closedEyes') : `<g transform="translate(0 178) scale(1 ${eyeScale}) translate(0 -178)">${img('eyes')}<g transform="translate(${p.gazeX} ${p.gazeY})">${img('pupils')}</g></g>`;
   const face=`<g transform="rotate(${p.headRotate} 384 279)">${eyes}<g transform="translate(${p.gazeX*.2} ${p.gazeY*.24})">${img('beak')}</g></g>`;

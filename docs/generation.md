@@ -22,6 +22,8 @@ Pip 的主要特征是圆润企鹅轮廓、白色肚皮、宽橙色喙、两只�
 
 普通摆臂将角度变化平滑分布到整条翅膀，肩根保持原有方向，避免在围巾下方突然拐折。高举挥手保留较短的抬臂过渡以防翼尖越出画布，思考动作则使用独立的弧形弯肘路径。
 
+工作状态 `running` 在 v2 中固定为 6 帧。当前循环组合交替向外摆翅、脚底着地的小幅左右摇摆、左右查看、点头、眨眼和围巾摆动；摆翅幅度按缩小后的悬浮宠物尺寸复核，避免动作小到看似静止。变形图层增加透明留白，保留伸出参考图坐标但仍在最终单格内的圆润翼尖；共用变形器修正后也需复核受影响的其他帧。宿主仍可能因系统关闭动画而只显示静帧，增加素材动作不能覆盖系统的减少动态效果设置。
+
 ## 从参考图重建
 
 需要 Node.js 20.9+、Python 3.10+。在项目根目录运行：
@@ -33,6 +35,7 @@ npm run build
 python scripts/validate.py --output qa/validation.json
 python scripts/make_previews.py --output previews
 python scripts/test_install_codex.py
+python scripts/test_working_motion.py
 ```
 
 构建器输出图集、更新后的 `assets/pet.json` 和 [`qa/generation-validation.json`](../qa/generation-validation.json)。生成报告记录参考图与图集哈希、固定缩放比例、原始待机姿态坐标以及各帧非透明边界。`qa/validation.json` 保存独立结构检查结果。
@@ -74,6 +77,8 @@ python scripts/make_previews.py --output work/previews
 GIF 是演示材料，包含展示用的背景、标签或帧时长，不应作为 RGBA 源素材的替代品。实际播放时长和循环策略由宿主决定；跳跃、失败等动作也可按业务需要播放一次后回到待机。
 
 v2 在这里表示图集布局版本。仓库提供 `scripts/install_codex.py`，用于将原始 PNG 和 `codex/pet.json` 清单安装到 Codex 本地宠物目录。更新已有 Pip 时使用 `python scripts/install_codex.py --update`，脚本先核实安装身份并备份旧文件。安装后需在 Codex 设置中刷新并选择 Pip，再通过 `/pet` 显示；脚本不会自动切换当前宠物。仓库结构检查和安装器测试不能代替宿主界面确认。16 个方向表示视线，不提供全身转向动画。二维像素变形也需要检查连接、遮挡和状态切换，视觉预览仍是判断动作质量的重要依据。
+
+本机包和云端 Pip 是两份独立素材。每次更新都需同步 Git 仓库、本机包和现有云端宠物；云端更新保留原宠物 ID，回下载后比较解码后的 RGBA 像素。服务重编码可能改变 PNG 文件哈希，不能据此误判像素不同。完整发布与同步步骤见 [README 的云端更新流程](../README.md#update-the-cloud-pip-too)。
 
 修改参考图或动作后应重新运行构建，让构建器同步更新素材描述中的 SHA-256，再运行结构检查并重新生成预览；若改动网格、行顺序或帧数，应同步修改素材描述、工具参数和 README 中的布局说明。
 

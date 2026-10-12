@@ -114,15 +114,16 @@ const states = [
   },
   {
     name: 'running',
-    // A focused, relaxed work rhythm. Flippers hang outside the torso and sway
-    // alternately; avoid pinning them upright against the belly like elbows.
+    // A readable work cycle at the small overlay size: alternate outward
+    // flipper sweeps, scan both sides, nod and blink, then settle into the loop.
+    // Keep the soles planted and the shoulders below the scarf.
     frames: [
-      pose({ bodyRotate: -0.4, gazeY: 3, headRotate: -0.4, leftArmRotate: 3, rightArmRotate: -1 }),
-      grounded({ bodyScaleY: 0.995, bodyRotate: -0.8, gazeY: 5, headRotate: -0.8, leftArmRotate: 8, rightArmRotate: -2, scarfRotate: -0.5 }),
-      grounded({ bodyScaleY: 0.998, bodyRotate: -0.4, gazeY: 4, headRotate: -0.3, leftArmRotate: 5, rightArmRotate: -4, scarfRotate: -0.2 }),
-      pose({ bodyRotate: 0.4, gazeY: 3, headRotate: 0.4, leftArmRotate: 1, rightArmRotate: -3 }),
-      grounded({ bodyScaleY: 0.995, bodyRotate: 0.8, gazeY: 5, headRotate: 0.8, leftArmRotate: 2, rightArmRotate: -8, scarfRotate: 0.5 }),
-      grounded({ bodyScaleY: 0.998, bodyRotate: 0.4, gazeY: 4, headRotate: 0.3, leftArmRotate: 4, rightArmRotate: -5, scarfRotate: 0.2 }),
+      pose({ gazeX: -4, gazeY: 1, headRotate: -1.6, leftArmRotate: 12, rightArmRotate: -8, scarfRotate: -1.5 }),
+      grounded({ bodyScaleY: 0.985, bodyRotate: -1.8, gazeX: -6, gazeY: 4, headRotate: -3, leftArmRotate: 22, rightArmRotate: -4, scarfRotate: -4 }),
+      grounded({ bodyScaleY: 0.978, bodyRotate: -0.9, gazeX: -2, gazeY: 6, headRotate: -1, blink: 0.85, leftArmRotate: 16, rightArmRotate: -12, scarfRotate: -1.5 }),
+      pose({ bodyRotate: 0.6, gazeX: 4, gazeY: -2, headRotate: 1.8, leftArmRotate: 6, rightArmRotate: -14, scarfRotate: 1.5 }),
+      grounded({ bodyScaleY: 0.985, bodyRotate: 1.8, gazeX: 6, gazeY: 4, headRotate: 3, leftArmRotate: 4, rightArmRotate: -22, scarfRotate: 4 }),
+      grounded({ bodyScaleY: 0.994, bodyRotate: 0.6, gazeX: 1, gazeY: 2, headRotate: 0.6, leftArmRotate: 10, rightArmRotate: -16, scarfRotate: 1.5 }),
     ],
   },
   {

@@ -127,6 +127,12 @@ def main():
             stills.paste(labeled_frame(frame, label), (index * tile_width, 0))
         save_png(stills, "motion-stills.png")
 
+        working = Image.new("RGB", (tile_width * 3, tile_height * 2), BACKGROUND)
+        for index, frame in enumerate(state_frames["running"]):
+            tile = labeled_frame(frame, f"Working {index + 1}/6")
+            working.paste(tile, ((index % 3) * tile_width, (index // 3) * tile_height))
+        save_png(working, "working-stills.png")
+
     print(json.dumps({"gifs": gif_count, "contact_sheet": "contact-sheet.png",
                       "duration_ms": args.duration, "source": str(source),
                       "output": str(args.output), "files": generated_files}))
