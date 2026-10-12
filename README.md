@@ -1,6 +1,6 @@
 # Pip — Penguin Pet for Codex
 
-![Pip's nine animation states](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/previews/all-states.gif)
+![Pip's nine animation states](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/a7a30d1e7fc634fd5ee0b85c5c53a46541141db2/previews/all-states.gif)
 
 Pip is a round penguin with a red scarf, a broad orange beak, and gentle expressions. This repository contains its **approved reference artwork, reproducible v2 sprite atlas, Codex installation package, and previews**. Every animation uses the same reference pixels, with attached flippers that bend smoothly at the shoulders.
 
@@ -8,24 +8,24 @@ Preview and installation links below use the same verified artwork revision.
 
 ## Install in Codex
 
-Use the Codex desktop app with Pets available. Pip uses a **version 2** atlas; the actual pet asset is [`assets/spritesheet.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/assets/spritesheet.png).
+Use the Codex desktop app with Pets available. Pip uses a **version 2** atlas; the actual pet asset is [`assets/spritesheet.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/a7a30d1e7fc634fd5ee0b85c5c53a46541141db2/assets/spritesheet.png).
 
 ### Option 1: Open the install link
 
-[Install Pip in Codex](codex://pets/install?name=Pip&imageUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fleonxs%2Fpip-pet-for-codex%2Fb8cdaafef2c33d1976c2b384ba8f9d8545743ce8%2Fassets%2Fspritesheet.png&spriteVersionNumber=2)
+[Install Pip in Codex](codex://pets/install?name=Pip&imageUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fleonxs%2Fpip-pet-for-codex%2Fa7a30d1e7fc634fd5ee0b85c5c53a46541141db2%2Fassets%2Fspritesheet.png&spriteVersionNumber=2)
 
 This opens the desktop pet install flow. The link explicitly selects v2, as documented in the [official pet deep-link reference](https://learn.chatgpt.com/docs/reference/commands#pets).
 
 GitHub may not activate `codex://` links. Copy this entire URL into your browser's address bar and allow it to open Codex:
 
 ```text
-codex://pets/install?name=Pip&imageUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fleonxs%2Fpip-pet-for-codex%2Fb8cdaafef2c33d1976c2b384ba8f9d8545743ce8%2Fassets%2Fspritesheet.png&spriteVersionNumber=2
+codex://pets/install?name=Pip&imageUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fleonxs%2Fpip-pet-for-codex%2Fa7a30d1e7fc634fd5ee0b85c5c53a46541141db2%2Fassets%2Fspritesheet.png&spriteVersionNumber=2
 ```
 
 On Windows, you can also open the same link from PowerShell:
 
 ```powershell
-Start-Process 'codex://pets/install?name=Pip&imageUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fleonxs%2Fpip-pet-for-codex%2Fb8cdaafef2c33d1976c2b384ba8f9d8545743ce8%2Fassets%2Fspritesheet.png&spriteVersionNumber=2'
+Start-Process 'codex://pets/install?name=Pip&imageUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fleonxs%2Fpip-pet-for-codex%2Fa7a30d1e7fc634fd5ee0b85c5c53a46541141db2%2Fassets%2Fspritesheet.png&spriteVersionNumber=2'
 ```
 
 The raw GitHub PNG must be publicly accessible for this method. If downloading it fails, use the local installer below.
@@ -48,7 +48,7 @@ The [installer](scripts/install_codex.py) copies `pet.json` and `spritesheet.png
 
 If `CODEX_HOME` is set, the installer uses `CODEX_HOME/pets/pip/`. Override the home directory with `--codex-home <directory>` when needed.
 
-[`codex/pet.json`](codex/pet.json) is the native Codex manifest, containing `id`, `displayName`, `description`, `spriteVersionNumber: 2`, and `spritesheetPath`. [`assets/pet.json`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/assets/pet.json) describes the atlas in detail for this repository's tools.
+[`codex/pet.json`](codex/pet.json) is the native Codex manifest, containing `id`, `displayName`, `description`, `spriteVersionNumber: 2`, and `spritesheetPath`. [`assets/pet.json`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/a7a30d1e7fc634fd5ee0b85c5c53a46541141db2/assets/pet.json) describes the atlas in detail for this repository's tools.
 
 ### Select and show Pip
 
@@ -69,6 +69,24 @@ The updater verifies the existing package belongs to Pip, preserves the previous
 
 Without `--update`, conflicting installed files are still preserved and the installer stops. The updater restores the previous package if a replacement fails; after an interrupted process or power loss, the retained backup can be restored manually.
 
+### Update the cloud Pip too
+
+**The local installer updates only files on this computer. It does not replace a cloud pet's stored sprite sheet.** A local Pip and a cloud Pip can have the same name while using different artwork. Updating GitHub, opening an install link, or refreshing the picker is not proof that the existing cloud Pip has been updated.
+
+After an artwork change, update all three destinations:
+
+1. **Repository:** Rebuild and validate the atlas, regenerate the previews, commit the artwork, and pin the README asset links to that commit with `python scripts/pin_readme_assets.py HEAD`. Commit the README and push both commits.
+2. **Local package:** Run `python scripts/install_codex.py --update` to back up and replace the installed Pip.
+3. **Cloud pet:** Use the connected **Pets** plugin to update the existing Pip with the same `assets/spritesheet.png`. Resolve Pip with `list_pets` and keep its stable `pet_id`; check `active_pet_id` when updating the pet currently in use. If several pets are named Pip, resolve the intended ID before updating. Download the old sheet with `get_pet_download_link` for inspection or backup, validate the new file with `validate_pet_spritesheet`, transfer it with `prepare_pet_upload`, then pass the returned `upload.upload_session_id` to `update_pet` as `updates.upload_session_id`. Preserve the existing name, description, and active selection. Use `update_pet` for an existing Pip so it retains its identity.
+
+Verify the cloud update by listing the same `pet_id` again, downloading its newly stored sheet, and comparing the decoded RGBA pixels with the committed atlas. The service may re-encode PNGs, so the file SHA-256 can differ while every pixel is identical. Also verify the local installation against the same atlas. Do not report a cloud update based only on the local installer result.
+
+To request this in a connected chat, use:
+
+> Update the existing cloud Pip from this repository's validated `assets/spritesheet.png`, preserving its pet ID and current selection. Update the local package too. Download the cloud result and verify its decoded pixels against the repository atlas, then commit and push the assets, previews, and pinned README links.
+
+Finally, open **Settings > Pets > Refresh** and reselect Pip if the visible pet still uses cached artwork. The [official Pets guide](https://learn.chatgpt.com/docs/pets) covers the picker and animation settings.
+
 ### Troubleshooting
 
 - **Pip is missing:** Check the installer output and the Codex home directory it used. Select **Refresh** again. If Refresh still does not detect Pip, restart the app yourself when convenient.
@@ -77,13 +95,14 @@ Without `--update`, conflicting installed files are still preserved and the inst
 - **The install link does nothing:** Use the complete URL above, including its HTTPS image URL and version parameter. Check that Codex is installed and Pets are available in your app/workspace.
 - **The remote image cannot be fetched:** The repository and raw PNG must be public. Use the local installer for an authorized local checkout instead.
 - **The image looks wrong:** Install the original RGBA PNG. GIF previews and contact sheets are display materials, not pet assets.
-- **Pip is static:** Check the operating system's reduced-motion setting, which can replace animation with a still frame. See the [official Pets guide](https://learn.chatgpt.com/docs/pets).
+- **The cloud Pip still has old actions:** Follow **Update the cloud Pip too** above. Updating `.codex/pets/pip` alone does not update the cloud pet currently selected in the app.
+- **Pip is static:** Pets respect the operating system's reduced-motion setting and can show a still frame even with a valid animated atlas. On Windows, enable **Settings > Accessibility > Visual effects > Animation effects** if you want animations to play, then refresh Pip. See the [official Pets guide](https://learn.chatgpt.com/docs/pets).
 
 ## Asset specifications
 
 | Property | Value |
 | --- | --- |
-| Source | [`assets/spritesheet.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/assets/spritesheet.png) |
+| Source | [`assets/spritesheet.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/a7a30d1e7fc634fd5ee0b85c5c53a46541141db2/assets/spritesheet.png) |
 | Format | PNG, RGBA, transparent background |
 | Atlas | 1536 × 2288 px |
 | Grid | 8 columns × 11 rows |
@@ -105,18 +124,22 @@ Rows and columns are **zero-based**. Crop a cell at `x = column × 192`, `y = ro
 | 4 | `jumping` | 5 | Anticipation, ascent, peak, descent, and landing |
 | 5 | `failed` | 8 | Looking down, slumping, and recovering |
 | 6 | `waiting` | 6 | Patient glances, blinking, and a gentle foot tap |
-| 7 | `running` | 6 | Focused nodding with relaxed, alternating flipper sways |
+| 7 | `running` | 6 | Alternating outward flipper sweeps, planted rocking, scanning, nodding, blinking, and scarf sway |
 | 8 | `review` | 6 | Inspecting, holding the beak, and tilting the head |
 | 9 | Look 0°–157.5° | 8 | First eight gaze directions |
 | 10 | Look 180°–337.5° | 8 | Remaining eight gaze directions |
 
 `running` is the working state. Moving runs use `running-right` and `running-left`.
 
-![Pip's relaxed working animation](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/previews/running.gif)
+The v2 layout fixes this state at six frames. Its work cycle combines several visible motions within those frames and keeps the feet planted, so the small overlay stays animated without turning task work into a traveling run.
+
+![Pip's active working animation](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/a7a30d1e7fc634fd5ee0b85c5c53a46541141db2/previews/running.gif)
+
+![All six working poses](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/a7a30d1e7fc634fd5ee0b85c5c53a46541141db2/previews/working-stills.png)
 
 ## Look directions
 
-![Pip's sixteen look directions](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/previews/look-loop.gif)
+![Pip's sixteen look directions](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/a7a30d1e7fc634fd5ee0b85c5c53a46541141db2/previews/look-loop.gif)
 
 Angles start at **up = 0°**, advance **clockwise**, and step by **22.5°**.
 
@@ -149,6 +172,7 @@ pip-pet-for-codex/
 │   ├── poses.cjs              # All state and gaze transforms
 │   ├── install_codex.py
 │   ├── test_install_codex.py
+│   ├── test_working_motion.py # Work-loop motion and attachment at overlay size
 │   ├── pin_readme_assets.py   # Verify and pin artwork/install URLs to a commit
 │   ├── validate.py
 │   ├── extract_frames.py
@@ -178,11 +202,11 @@ python scripts/make_previews.py --output work/previews
 
 Validation checks the RGBA mode, dimensions, metadata layout, occupied and transparent cells, cell borders, hidden RGB values in transparent pixels, and the atlas SHA-256. The [validation report](qa/validation.json) records the packaged asset's results.
 
-All extraction and preview tools read the final atlas directly and require no ImageGen calls. See [`idle-jump-idle.gif`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/previews/idle-jump-idle.gif) for state transitions and [`motion-stills.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/previews/motion-stills.png) for representative poses.
+All extraction and preview tools read the final atlas directly and require no ImageGen calls. See [`idle-jump-idle.gif`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/a7a30d1e7fc634fd5ee0b85c5c53a46541141db2/previews/idle-jump-idle.gif) for state transitions and [`motion-stills.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/a7a30d1e7fc634fd5ee0b85c5c53a46541141db2/previews/motion-stills.png) for representative poses.
 
 ## Rebuild the animations
 
-To rebuild from [`assets/reference.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/b8cdaafef2c33d1976c2b384ba8f9d8545743ce8/assets/reference.png), install Node.js 20.9+ and run:
+To rebuild from [`assets/reference.png`](https://raw.githubusercontent.com/leonxs/pip-pet-for-codex/a7a30d1e7fc634fd5ee0b85c5c53a46541141db2/assets/reference.png), install Node.js 20.9+ and run:
 
 ```sh
 npm ci
@@ -190,9 +214,10 @@ npm run build
 python scripts/validate.py --output qa/validation.json
 python scripts/make_previews.py --output previews
 python scripts/test_install_codex.py
+python scripts/test_working_motion.py
 ```
 
-The builder writes the atlas, source and atlas checksums in the metadata, and [`qa/generation-validation.json`](qa/generation-validation.json). It removes only flood-connected exterior white, preserves enclosed white areas, and reuses the source's colors and curves. The neutral idle frame uses the complete source silhouette. Other frames bend textured flippers and the scarf tail from anchored roots, deform the connected feet as one surface, and coordinate body motion, gaze, and blinking. Shoulders stay behind the scarf while raised flipper tips can cross in front. Frame scale stays fixed; the builder rejects any pose that reaches a cell border.
+The builder writes the atlas, source and atlas checksums in the metadata, and [`qa/generation-validation.json`](qa/generation-validation.json). It removes only flood-connected exterior white, preserves enclosed white areas, and reuses the source's colors and curves. The neutral idle frame uses the complete source silhouette. Other frames bend textured flippers and the scarf tail from anchored roots, deform the connected feet as one surface, and coordinate body motion, gaze, and blinking. Shoulders stay behind the scarf while raised flipper tips can cross in front. Deformed layers have transparent padding so outward flipper tips are not cut at the reference-image edge. Frame scale stays fixed; the builder rejects any pose that reaches a cell border. The work-loop regression check measures motion at half-size, checks both flipper sweeps and ground contact, and rejects detached fragments.
 
 After committing rebuilt artwork and previews, run `python scripts/pin_readme_assets.py HEAD` and commit the updated README. The helper verifies every linked artwork file matches that commit, then pins all preview, source-image, metadata, and install URLs to it. Each artwork update therefore gets new URLs instead of reusing cached `main` image URLs.
 
