@@ -24,16 +24,21 @@ const grounded = (values = {}) => pose({
   ...values,
 });
 
+const resting = (values = {}) => grounded({
+  leftArmRotate: -8, rightArmRotate: 8,
+  ...values,
+});
+
 const states = [
   {
     name: 'idle',
     frames: [
-      pose(), // Exact neutral source image: useful as the static model as well.
-      grounded({ bodyScaleY: 1.003, leftArmRotate: 0.6, rightArmRotate: -0.6 }),
-      grounded({ bodyScaleY: 1.005, leftArmRotate: 1, rightArmRotate: -1, scarfRotate: 0.5 }),
-      grounded({ bodyScaleY: 1.003, leftArmRotate: 0.6, rightArmRotate: -0.6, blink: 0.9 }),
-      grounded({ bodyScaleY: 0.998, blink: 0.12, scarfRotate: -0.4 }),
-      grounded({ bodyScaleY: 0.997, leftArmRotate: -0.5, rightArmRotate: 0.5 }),
+      resting(),
+      resting({ bodyScaleY: 1.003, leftArmRotate: -7.4, rightArmRotate: 7.4 }),
+      resting({ bodyScaleY: 1.005, leftArmRotate: -7, rightArmRotate: 7, scarfRotate: 0.5 }),
+      resting({ bodyScaleY: 1.003, leftArmRotate: -7.4, rightArmRotate: 7.4, blink: 0.9 }),
+      resting({ bodyScaleY: 0.998, blink: 0.12, scarfRotate: -0.4 }),
+      resting({ bodyScaleY: 0.997, leftArmRotate: -8.5, rightArmRotate: 8.5 }),
     ],
   },
   {
@@ -118,12 +123,12 @@ const states = [
     // flipper sweeps, scan both sides, nod and blink, then settle into the loop.
     // Keep the soles planted and the shoulders below the scarf.
     frames: [
-      pose({ gazeX: -4, gazeY: 1, headRotate: -1.6, leftArmRotate: 12, rightArmRotate: -8, scarfRotate: -1.5 }),
+      resting({ gazeX: -2, gazeY: 1, headRotate: -0.8, scarfRotate: -1 }),
       grounded({ bodyScaleY: 0.985, bodyRotate: -1.8, gazeX: -6, gazeY: 4, headRotate: -3, leftArmRotate: 22, rightArmRotate: -4, scarfRotate: -4 }),
       grounded({ bodyScaleY: 0.978, bodyRotate: -0.9, gazeX: -2, gazeY: 6, headRotate: -1, blink: 0.85, leftArmRotate: 16, rightArmRotate: -12, scarfRotate: -1.5 }),
       pose({ bodyRotate: 0.6, gazeX: 4, gazeY: -2, headRotate: 1.8, leftArmRotate: 6, rightArmRotate: -14, scarfRotate: 1.5 }),
       grounded({ bodyScaleY: 0.985, bodyRotate: 1.8, gazeX: 6, gazeY: 4, headRotate: 3, leftArmRotate: 4, rightArmRotate: -22, scarfRotate: 4 }),
-      grounded({ bodyScaleY: 0.994, bodyRotate: 0.6, gazeX: 1, gazeY: 2, headRotate: 0.6, leftArmRotate: 10, rightArmRotate: -16, scarfRotate: 1.5 }),
+      resting({ bodyScaleY: 0.994, bodyRotate: 0.6, gazeX: 1, gazeY: 2, headRotate: 0.6, leftArmRotate: -4, rightArmRotate: 4, scarfRotate: 1.5 }),
     ],
   },
   {
@@ -147,7 +152,7 @@ const looks = Array.from({ length: 16 }, (_, index) => {
   const angle = index * Math.PI / 8;
   const x = Math.sin(angle);
   const y = -Math.cos(angle);
-  return pose({
+  return resting({
     gazeX: Number((x * 6).toFixed(3)),
     gazeY: Number((y * 6).toFixed(3)),
     headRotate: Number((x * 1.2).toFixed(3)),

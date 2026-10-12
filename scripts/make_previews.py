@@ -133,6 +133,12 @@ def main():
             working.paste(tile, ((index % 3) * tile_width, (index // 3) * tile_height))
         save_png(working, "working-stills.png")
 
+        resting = Image.new("RGB", (tile_width * 3, tile_height * 2), BACKGROUND)
+        for index, frame in enumerate(state_frames["idle"]):
+            tile = labeled_frame(frame, f"Idle {index + 1}/6")
+            resting.paste(tile, ((index % 3) * tile_width, (index // 3) * tile_height))
+        save_png(resting, "idle-stills.png")
+
     print(json.dumps({"gifs": gif_count, "contact_sheet": "contact-sheet.png",
                       "duration_ms": args.duration, "source": str(source),
                       "output": str(args.output), "files": generated_files}))

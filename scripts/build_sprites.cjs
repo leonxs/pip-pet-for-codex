@@ -120,7 +120,7 @@ async function sourceLayers() {
   }
   const encoded={};
   await fs.mkdir(path.join(ROOT,'work/refinement/layers'),{recursive:true});
-  for(const [name,buffer]of Object.entries({...layers,full})){
+  for(const [name,buffer]of Object.entries(layers)){
     const png=await sharp(buffer,{raw:{width:WORLD,height:WORLD,channels:4}}).png().toBuffer();
     encoded[name]=`data:image/png;base64,${png.toString('base64')}`;
     await fs.writeFile(path.join(ROOT,`work/refinement/layers/${name}.png`),png);
@@ -240,7 +240,7 @@ async function bendScarf(raw,angle){
   });
 }
 
-function markup(layers,p,neutral=false){
+function markup(layers,p){
   const img=name=>{
     const layer=layers[name];
     return typeof layer==='string'
@@ -251,8 +251,7 @@ function markup(layers,p,neutral=false){
   const eyes=p.blink>.7 ? img('closedEyes') : `<g transform="translate(0 178) scale(1 ${eyeScale}) translate(0 -178)">${img('eyes')}<g transform="translate(${p.gazeX} ${p.gazeY})">${img('pupils')}</g></g>`;
   const face=`<g transform="rotate(${p.headRotate} 384 279)">${eyes}<g transform="translate(${p.gazeX*.2} ${p.gazeY*.24})">${img('beak')}</g></g>`;
   const frontRight=p.rightArmRotate>70;
-  const body=neutral?img('full'):
-    `${img('feet')}${img('leftArm')}${img('rightArm')}${img('body')}${img('scarf')}${face}${frontRight?img('rightArmFront'):''}`;
+  const body=`${img('feet')}${img('leftArm')}${img('rightArm')}${img('body')}${img('scarf')}${face}${frontRight?img('rightArmFront'):''}`;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="768" height="832" viewBox="0 0 192 208"><g transform="translate(96 196) scale(${SCALE}) translate(-384 -718)"><g transform="translate(0 ${p.bodyY}) translate(384 410) rotate(${p.bodyRotate}) scale(${p.bodyScaleX} ${p.bodyScaleY}) translate(-384 -410)">${body}</g></g></svg>`;
 }
 
@@ -272,7 +271,7 @@ async function build(){
       const feet=await bendFeet(rawLayers.feet,pose),scarf=await bendScarf(rawLayers.scarf,pose.scarfRotate);
       if(feet)frameLayers.feet=feet;
       if(scarf)frameLayers.scarf=scarf;
-      const raster=await sharp(Buffer.from(markup(frameLayers,pose,row===0&&col===0))).resize(CELL_W,CELL_H).ensureAlpha().raw().toBuffer();
+      const raster=await sharp(Buffer.from(markup(frameLayers,pose))).resize(CELL_W,CELL_H).ensureAlpha().raw().toBuffer();
       let left=CELL_W,top=CELL_H,right=0,bottom=0,count=0;
       for(let y=0;y<CELL_H;y++)for(let x=0;x<CELL_W;x++){
         const i=(y*CELL_W+x)*4;
@@ -292,7 +291,7 @@ async function build(){
   await fs.writeFile(metaPath,JSON.stringify(metadata,null,2)+'\n');
   await fs.writeFile(path.join(ROOT,'qa/generation-validation.json'),JSON.stringify({
     ok:true,source:'assets/reference.png',source_sha256:sourceHash,sha256:sha(atlas),
-    method:metadata.source.method,scale:SCALE,neutral_source_pose:[0,0],cells:report
+    method:metadata.source.method,scale:SCALE,resting_pose:[0,0],cells:report
   },null,2)+'\n');
   console.log(JSON.stringify({ok:true,frames:report.length,sha256:sha(atlas),source_sha256:sourceHash}));
 }
